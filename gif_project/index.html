@@ -2,6 +2,7 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>互動式 GIF 模擬</title>
   <style>
     body {
@@ -13,10 +14,13 @@
     }
     img {
       width: 800px;
+      max-width: 100%;
       height: auto;
       cursor: pointer;
       user-select: none;
       -webkit-user-drag: none;
+      touch-action: manipulation; /* 防止觸控事件被瀏覽器攔截 */
+      -webkit-touch-callout: none; /* iOS 長按選單禁用 */
     }
   </style>
 </head>
@@ -25,53 +29,56 @@
 <h2>點圖片或左右鍵切換圖片,可以讓阿鳥加速OO</h2>
 <h2>画像をクリックするか、左右のキーで画像を切り替え、バードにOOを加速させることができます</h2>
 
-  <img id="gifFrame" src="frame1.png" alt="GIF Frame" />
+<img id="gifFrame" src="frame1.png" alt="GIF Frame" />
 
-  <script>
-    const frames = [
-      "frame1.png",
-      "frame2.png",
-      "frame3.png",
-    ];
+<script>
+  const frames = [
+    "frame1.png",
+    "frame2.png",
+    "frame3.png",
+  ];
 
-    let currentFrame = 0;
-    const img = document.getElementById("gifFrame");
+  let currentFrame = 0;
+  const img = document.getElementById("gifFrame");
 
-    function updateFrame(index) {
-      currentFrame = (index + frames.length) % frames.length;
-      img.src = frames[currentFrame];
-    }
+  function updateFrame(index) {
+    currentFrame = (index + frames.length) % frames.length;
+    img.src = frames[currentFrame];
+  }
 
-    img.addEventListener("click", () => {
+  img.addEventListener("click", (e) => {
+    e.preventDefault(); // 阻止放大行為
+    updateFrame(currentFrame + 1);
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight") {
       updateFrame(currentFrame + 1);
-    });
+    } else if (e.key === "ArrowLeft") {
+      updateFrame(currentFrame - 1);
+    }
+  });
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowRight") {
-        updateFrame(currentFrame + 1);
-      } else if (e.key === "ArrowLeft") {
+  let startX = 0;
+  img.addEventListener("touchstart", (e) => {
+    e.preventDefault(); // 阻止雙指縮放等預設手勢
+    startX = e.touches[0].clientX;
+  }, { passive: false });
+
+  img.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    const endX = e.changedTouches[0].clientX;
+    const diff = endX - startX;
+
+    if (Math.abs(diff) > 30) {
+      if (diff > 0) {
         updateFrame(currentFrame - 1);
+      } else {
+        updateFrame(currentFrame + 1);
       }
-    });
-
-    let startX = 0;
-    img.addEventListener("touchstart", (e) => {
-      startX = e.touches[0].clientX;
-    });
-
-    img.addEventListener("touchend", (e) => {
-      const endX = e.changedTouches[0].clientX;
-      const diff = endX - startX;
-
-      if (Math.abs(diff) > 30) {
-        if (diff > 0) {
-          updateFrame(currentFrame - 1);
-        } else {
-          updateFrame(currentFrame + 1);
-        }
-      }
-    });
-  </script>
+    }
+  }, { passive: false });
+</script>
 
 </body>
 </html>
