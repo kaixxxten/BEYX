@@ -91,12 +91,27 @@ const hudScoreEl=document.getElementById("hudScore"),hudTimeEl=document.getEleme
 let last=0;
 function loop(ts){
   requestAnimationFrame(loop);
-  const dt=Math.min(33,ts-last);last=ts;
+  const dt=ts-last;last=ts;
   ctx.clearRect(0,0,W,H);
   if(state==="playing"){
     spawnTimer+=dt;if(spawnTimer>900){spawnItem();spawnTimer=0;}
-    if(mascot.visible){const msz=SIZES.mascot;ctx.drawImage(cache.mascot,W-msz.w-20,20,msz.w,msz.h);mascot.timer--;if(mascot.timer<=0)mascot.visible=false;}
-    for(let i=items.length-1;i>=0;i--){let it=items[i];it.y+=4;ctx.drawImage(cache[it.type],it.x,it.y,it.w,it.h);
+    if(mascot.visible){
+      const msz=SIZES.mascot;
+      // 計算淡入淡出
+      let alpha=1;
+      if(mascot.timer>60){alpha=1-(mascot.timer-60)/30;} // 前段淡入
+      else if(mascot.timer<30){alpha=mascot.timer/30;}   // 後段淡出
+      ctx.save();
+      ctx.globalAlpha=Math.max(0,Math.min(1,alpha));
+      ctx.drawImage(cache.mascot,W-msz.w-20,20,msz.w,msz.h);
+      ctx.restore();
+      mascot.timer--;
+      if(mascot.timer<=0)mascot.visible=false;
+    }
+    for(let i=items.length-1;i>=0;i--){
+      let it=items[i];
+      it.y+=0.2*dt; // 用dt修正掉落速度，0.2 px/ms
+      ctx.drawImage(cache[it.type],it.x,it.y,it.w,it.h);
       if(collide(player,it)){
         score+=ITEM_RULES[it.type].score;
         // 玩家咬合效果
@@ -104,11 +119,12 @@ function loop(ts){
         setTimeout(()=>{player.toggle=false;},100);
         // dog 觸發 mascot 出現
         if(it.type==="dog"){
-          mascot.visible=true;mascot.timer=90; // 約1.5秒
+          mascot.visible=true;mascot.timer=90; // 90幀，約1.5秒
         }
         items.splice(i,1);
       }
-      else if(it.y>H){items.splice(i,1);}}
+      else if(it.y>H){items.splice(i,1);}
+    }
     hudScoreEl.textContent=`Score: ${score}`;
     timeLeft-=dt/1000;if(timeLeft<0){timeLeft=0;state="gameover";finalScoreEl.textContent=`Score: ${score}`;overlayGameOver.classList.add("show");}
     hudTimeEl.textContent=`Time: ${Math.ceil(timeLeft)}`;
