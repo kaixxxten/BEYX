@@ -1,0 +1,42 @@
+:root{
+  --panel-w: 560px;
+  --btn-w: 240px;
+  --btn-h: 44px;
+  --diff-w: 120px;
+  --lang-w: 120px;
+  --hud-w: 160px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#222;color:#111;font-family:sans-serif;
+display:flex;align-items:center;justify-content:center;min-height:100vh;padding:10px}
+#wrap{position:relative;text-align:center;max-width:100%}
+canvas{background:#fff;border:3px solid #000;max-width:100%;height:auto;display:block;margin:0 auto}
+.overlay{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.4);padding:10px;z-index:10}
+.overlay.show{display:flex}
+.panel{background:#fff;padding:calc(20px + env(safe-area-inset-top)) 20px 20px;border-radius:16px;border:2px solid #111;text-align:center;
+  width:var(--panel-w);max-width:min(96vw,var(--panel-w));}
+.panel h1{margin:6px 0 12px;white-space:nowrap}
+button{cursor:pointer;border:2px solid #111;background:#111;color:#fff;padding:10px 16px;border-radius:12px;font-weight:700}
+button:hover{filter:brightness(1.06)}
+button[disabled]{opacity:0.6;cursor:not-allowed}
+button.secondary{background:#fff;color:#111}
+.menu-group{display:flex;flex-direction:column;gap:10px;margin-bottom:10px;align-items:center}
+.menu-group>button{width:var(--btn-w);min-height:var(--btn-h)}
+.difficulty,.lang{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center}
+.difficulty span,.lang span{white-space:nowrap}
+.diff{background:#444;width:var(--diff-w);min-height:var(--btn-h)}
+.diff.active{background:#0a7}
+.langbtn{background:#555;width:var(--lang-w);min-height:var(--btn-h)}
+.langbtn.active{background:#0a5}
+.how{text-align:left;max-width:100%}
+.how ul{padding-left:18px;margin:8px 0}
+.hud,.hud-bottom{position:absolute;color:#111;background:rgba(255,255,255,.85);
+  padding:6px 10px;border-radius:10px;border:2px solid #111;font-weight:700;width:var(--hud-w);white-space:nowrap;z-index:5}
+.hud{left:10px;top:10px}
+.hud-bottom{left:10px;bottom:60px}
+#controls{margin-top:14px;display:flex;justify-content:center;gap:24px}
+#controls button{font-size:32px;padding:18px 36px;border-radius:16px}
+@media (max-width: 480px){
+  #controls{gap:28px;margin-top:18px}
+  .hud-bottom{bottom:90px}
+}

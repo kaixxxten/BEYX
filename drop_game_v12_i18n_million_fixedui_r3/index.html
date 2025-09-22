@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>掉落遊戲</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="wrap">
+    <canvas id="gameCanvas" width="800" height="800"></canvas>
+
+    <div id="controls">
+      <button id="btnLeft" aria-label="向左">◀</button>
+      <button id="btnRight" aria-label="向右">▶</button>
+    </div>
+
+    <!-- 主選單 -->
+    <div id="menu" class="overlay show">
+      <div class="panel">
+        <h1 id="title">掉落遊戲</h1>
+
+        <div class="menu-group">
+          <button id="menuStart" disabled>載入中…</button>
+          <button id="menuHow" class="secondary">玩法說明</button>
+
+          <div class="difficulty">
+            <span id="diffLabel">難度：</span>
+            <button class="diff" data-d="easy">簡單</button>
+            <button class="diff active" data-d="normal">普通</button>
+            <button class="diff" data-d="hard">困難</button>
+          </div>
+
+          <div class="lang">
+            <span id="langLabel">語言：</span>
+            <button class="langbtn active" data-lang="zh">中文</button>
+            <button class="langbtn" data-lang="ja">日本語</button>
+            <button class="langbtn" data-lang="en">English</button>
+          </div>
+        </div>
+
+        <div id="howTo" class="how" hidden>
+          <h2 id="howTitle">玩法說明</h2>
+          <ul id="howList">
+            <li>操作艾克斯和巨龍移動吃東西</li>
+            <li>PC：鍵盤 ← → 移動</li>
+            <li>手機：點住下方 ◀ ▶ 按鈕移動</li>
+            <li>30 秒內盡量吃高分：dog +50、sushi +200、bird +500</li>
+            <li>rest -50、ban -200；吃到 dog 會讓右上角 MILLION 現身</li>
+          </ul>
+          <button id="closeHow">關閉</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 結束畫面 -->
+    <div id="overlayGameOver" class="overlay">
+      <div class="panel">
+        <h1 id="overTitle">時間到！</h1>
+        <p id="finalScore">Score: 0</p>
+        <div class="menu-group">
+          <button id="btnRestartSame">再玩一次（同難度）</button>
+          <button id="btnBackToMenu" class="secondary">回到標題</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
