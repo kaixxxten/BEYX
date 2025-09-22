@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>掉落遊戲</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="wrap">
+    <canvas id="gameCanvas" width="800" height="800"></canvas>
+
+    <div id="controls">
+      <button id="btnLeft" aria-label="向左">◀</button>
+      <button id="btnRight" aria-label="向右">▶</button>
+    </div>
+
+    <!-- 主選單 -->
+    <div id="menu" class="overlay show">
+      <div class="panel">
+        <h1>掉落遊戲</h1>
+        <div class="menu-group">
+          <button id="menuStart">Start Game</button>
+          <button id="menuHow">How to Play</button>
+          <div class="difficulty">
+            <span>Difficulty：</span>
+            <button class="diff" data-d="easy">Easy</button>
+            <button class="diff active" data-d="normal">Normal</button>
+            <button class="diff" data-d="hard">Hard</button>
+          </div>
+        </div>
+        <div id="howTo" class="how" hidden>
+          <h2>玩法說明</h2>
+          <ul>
+            <li>PC：鍵盤 ← → 移動</li>
+            <li>手機：點住下方 ◀ ▶ 按鈕移動</li>
+            <li>30 秒內盡量吃高分：dog +50、sushi +200、bird +500</li>
+            <li>rest -50、ban -200；吃到 dog 會讓右上角角色現身</li>
+          </ul>
+          <button id="closeHow">關閉</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 結束畫面 -->
+    <div id="overlayGameOver" class="overlay">
+      <div class="panel">
+        <h1>時間到！</h1>
+        <p id="finalScore">Score: 0</p>
+        <button id="btnRestart">再玩一次</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
