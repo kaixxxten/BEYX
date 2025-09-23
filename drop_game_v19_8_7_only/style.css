@@ -331,3 +331,25 @@ body.playing.ctlactive #btnMute { pointer-events: none; opacity: 0.85; }
   #howtoBody{ font-size: 13px; }
 }
 
+
+/* === v19.8.6m How-to scroll fix (mobile) === */
+/* The game globally disables touch panning for the body; re-enable vertical panning inside the How-to panel */
+#howto, #howtoBody, .howto, .howto-body {
+  touch-action: pan-y !important;
+  pointer-events: auto !important;
+}
+
+#howtoBody, .howto-body {
+  max-height: min(68vh, 560px) !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding-right: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #aab2bd transparent;
+}
+#howtoBody::-webkit-scrollbar, .howto-body::-webkit-scrollbar { width: 8px; }
+#howtoBody::-webkit-scrollbar-track, .howto-body::-webkit-scrollbar-track { background: rgba(0,0,0,0.08); border-radius: 8px; }
+#howtoBody::-webkit-scrollbar-thumb, .howto-body::-webkit-scrollbar-thumb { background: #aab2bd; border-radius: 8px; }
+#howtoBody::-webkit-scrollbar-thumb:hover, .howto-body::-webkit-scrollbar-thumb:hover { background: #97a0ab; }
+
