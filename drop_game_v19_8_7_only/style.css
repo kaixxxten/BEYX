@@ -332,74 +332,26 @@ body.playing.ctlactive #btnMute { pointer-events: none; opacity: 0.85; }
 }
 
 
-/* === v19.8.6m How-to scroll fix (mobile) === */
-/* The game globally disables touch panning for the body; re-enable vertical panning inside the How-to panel */
-#howto, #howtoBody, .howto, .howto-body {
-  touch-action: pan-y !important;
-  pointer-events: auto !important;
+/* === How-to readable (title 14px, body 12px) — robust selectors === */
+#howtoBody, #howtoBody ul, #howList, #howTo ul, .how ul{
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+}
+#howTo h2, .how h2, #howtoBody h2{
+  font-size: 14px !important;
+  margin: 8px 0 6px;
+}
+#howtoBody li, #howTo li, .how li{ margin: 5px 0 !important; }
+
+
+/* === Smaller main title (menu h1) === */
+#menu h1#title, #menu .card h1#title, .card h1#title, h1#title, #title{
+  font-size: 26px !important;
+  line-height: 1.2 !important;
+}
+@media (max-width: 480px){
+  #menu h1#title, #menu .card h1#title, .card h1#title, h1#title, #title{
+    font-size: 22px !important;
+  }
 }
 
-#howtoBody, .howto-body {
-  max-height: min(68vh, 560px) !important;
-  overflow-y: auto !important;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-  padding-right: 8px;
-  scrollbar-width: thin;
-  scrollbar-color: #aab2bd transparent;
-}
-#howtoBody::-webkit-scrollbar, .howto-body::-webkit-scrollbar { width: 8px; }
-#howtoBody::-webkit-scrollbar-track, .howto-body::-webkit-scrollbar-track { background: rgba(0,0,0,0.08); border-radius: 8px; }
-#howtoBody::-webkit-scrollbar-thumb, .howto-body::-webkit-scrollbar-thumb { background: #aab2bd; border-radius: 8px; }
-#howtoBody::-webkit-scrollbar-thumb:hover, .howto-body::-webkit-scrollbar-thumb:hover { background: #97a0ab; }
-
-
-/* === v19.8.6n Menu size fix + How-to typography + scroll === */
-
-/* Fix menu panel width/controls sizing so switching languages doesn't resize layout */
-#menu{ width:min(92vw, 640px); margin:0 auto; }
-#menu .row{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
-#menu button{ min-width:240px; height:56px; font-size:20px; }
-@media (max-width:520px){
-  #menu button{ min-width:44vw; height:50px; font-size:18px; }
-}
-
-/* How-to heading/body smaller as requested */
-#howtoBody h2{ font-size:18px; margin:8px 0 6px; }
-#howtoBody{ font-size:14px; line-height:1.55; }
-#howtoBody li{ margin:6px 0; }
-
-/* Ensure how-to scroll works even with body touch lock */
-body.menu #howto, body.menu #howtoBody{ touch-action:pan-y !important; }
-body.menu #howtoBody{ 
-  max-height:min(68vh,560px) !important; 
-  overflow-y:auto !important; 
-  -webkit-overflow-scrolling:touch; 
-  overscroll-behavior:contain; 
-  padding-right:8px;
-  scrollbar-width:thin;
-  scrollbar-color:#aab2bd transparent;
-}
-body.menu #howtoBody::-webkit-scrollbar{ width:8px; }
-body.menu #howtoBody::-webkit-scrollbar-track{ background:rgba(0,0,0,.08); border-radius:8px; }
-body.menu #howtoBody::-webkit-scrollbar-thumb{ background:#aab2bd; border-radius:8px; }
-body.menu #howtoBody::-webkit-scrollbar-thumb:hover{ background:#97a0ab; }
-
-
-/* v19.8.6p — requested layout: three rows align, outline buttons half padding */
-#menu{ width:min(92vw, 640px); margin:0 auto; }
-#menu .row{ display:grid; grid-template-columns: 1fr 1fr 1fr; gap:14px; align-items:center; }
-#menu .row.two{ grid-template-columns: 1fr 1fr; }
-#menu .label{ justify-self:start; font-weight:800; font-size:18px; padding:0 6px; }
-#menu .btn{ min-width:auto; }
-#menu .btn.outline{ padding:10px 16px; } /* 半數內縮 */
-
-#howtoBody{ max-height: min(68vh, 560px); overflow-y:auto; -webkit-overflow-scrolling:touch; }
-#howtoBody h2{ font-size:18px; }
-#howtoBody li{ font-size:14px; line-height:1.55; margin:6px 0; }
-
-/* visible scrollbar */
-#howtoBody{ scrollbar-width: thin; scrollbar-color:#aab2bd transparent; }
-#howtoBody::-webkit-scrollbar{ width:8px; }
-#howtoBody::-webkit-scrollbar-track{ background:rgba(0,0,0,.08); border-radius:8px; }
-#howtoBody::-webkit-scrollbar-thumb{ background:#aab2bd; border-radius:8px; }

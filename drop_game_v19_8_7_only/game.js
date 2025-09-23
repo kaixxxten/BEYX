@@ -1,4 +1,3 @@
-try{document.body.classList.add('menu');}catch(e){}
 // ====== DPR & 自適應方形布局 ======
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -86,7 +85,7 @@ const i18n = {
         ],
         over:"時間切れ！", restartSame:"もう一度（同じ難易度）", backToMenu:"タイトルへ",
         score:"スコア", time:"時間", best:"ベスト", comboHUD:"⭐ ", dash:"エクストリームダッシュ" },
-  en: { title:"Catch & Chow", start:"Start Game", loading:"Loading…", how:"How to Play", close:"Close",
+  en: { title:"Catching Game", start:"Start Game", loading:"Loading…", how:"How to Play", close:"Close",
         difficulty:"Difficulty:", easy:"Easy", normal:"Normal", hard:"Hard",
         timeLabel:"Time:", t30:"30s", t60:"60s", lang:"Language:",
         howTitle:"How to Play",
@@ -317,7 +316,6 @@ document.addEventListener("visibilitychange", ()=>{
 // ====== HUD ======
 function setHUDVisible(v){ topHUD.hidden=!v; layoutSquare(); }
 function setPlayingFlag(on){ document.body.classList.toggle('playing', !!on); }
-function setMenuFlag(on){ document.body.classList.toggle('menu', !!on); }
 function setControlsActive(on){ document.body.classList.toggle('ctlactive', !!on); }
 function updateComboHUD(){ topComboEl.textContent = `${i18n[lang].comboHUD}${starStreak}`; }
 
@@ -346,7 +344,6 @@ const fx=document.createElement("canvas"); const fxCtx=fx.getContext("2d"); fx.w
 function addHurtFlash(ms=300,s=1){ hurtFlash=Math.min(1,s); hurtDecayMs=ms; }
 
 function startGame(){
-  setMenuFlag(false);
   setPlayingFlag(true);
   state="playing"; score=0; timeLeft=gameDuration; items=[]; mascot.visible=false; popups=[];
   prevSecond=null; timeupPlayed=false; paused=false; spawnTimer=0;
@@ -357,7 +354,6 @@ function startGame(){
 }
 
 function goToMenu(){
-  setMenuFlag(true);
   setPlayingFlag(false);
   state="menu"; items=[]; popups=[]; mascot.visible=false;
   stopBGM(); setHUDVisible(false); controls.hidden = true; layoutSquare();

@@ -1,104 +1,88 @@
-<!doctype html>
-<html lang="zh">
+<!DOCTYPE html>
+<html lang="zh-TW">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <title>掉落遊戲</title>
-  <link rel="stylesheet" href="style.css?v=19.8.6p">
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="menu">
-  <div class="topbar" id="topHUD">
-    <div class="stat" id="topScore">Score: 0</div>
-    <div class="stat" id="topCombo">⭐ 0</div>
-    <div class="stat" id="topTime">Time: 30</div>
-    <div class="right">
-      <button class="mute" id="btnMute" aria-label="Mute">🔊</button>
-    </div>
-  </div>
-
-  <div id="canvasBox">
-    <canvas id="gameCanvas" width="800" height="800"></canvas>
-    <div id="authorCorner">X@kaixxxten</div>
-  </div>
-
-  <div id="controls">
-    <button id="btnLeft">◀</button>
-    <button id="btnDash">DASH</button>
-    <button id="btnRight">▶</button>
-  </div>
-
-  <!-- MENU -->
-  <div id="menu" class="panel">
-    <h1 id="title">掉落遊戲</h1>
-
-    <div class="row two" style="justify-items:center;">
-      <button id="menuStart" class="btn primary">開始遊戲</button>
-      <button id="menuHow" class="btn outline">玩法說明</button>
-    </div>
-
-    <div class="row three">
-      <div class="label" id="diffLabel">難度：</div>
-      <div class="btnwrap">
-        <button class="btn diff" data-v="easy">簡單</button>
-      </div>
-      <div class="btnwrap">
-        <button class="btn diff sel" data-v="normal">普通</button>
-      </div>
-      <div class="btnwrap">
-        <button class="btn diff" data-v="hard">困難</button>
+<body>
+  <div id="wrap">
+    <div id="topHUD" class="topbar" hidden>
+      <div id="topScore" class="stat">Score: 0</div>
+      <div id="topCombo" class="stat">⭐ 0</div>
+      <div class="right">
+        <div id="topTime" class="stat">Time: 30</div>
+        <button id="btnMute" class="mute" aria-label="Toggle mute">🔊</button>
       </div>
     </div>
 
-    <div class="row two">
-      <div class="label" id="timeLabel">時間：</div>
-      <div class="btnwrap">
-        <button class="btn timebtn sel" data-v="30">30 秒</button>
-      </div>
-      <div class="btnwrap">
-        <button class="btn timebtn" data-v="60">60 秒</button>
-      </div>
+    <div id="canvasBox">
+      <canvas id="gameCanvas" width="800" height="800"></canvas>
     </div>
 
-    <div class="row three">
-      <div class="label" id="langLabel">語言：</div>
-      <div class="btnwrap">
-        <button class="btn langbtn sel" data-v="zh">中文</button>
-      </div>
-      <div class="btnwrap">
-        <button class="btn langbtn" data-v="ja">日本語</button>
-      </div>
-      <div class="btnwrap">
-        <button class="btn langbtn" data-v="en">English</button>
-      </div>
+    <div id="controls" hidden>
+      <button id="btnLeft" aria-label="向左">◀</button>
+      <button id="btnDash" aria-label="極限衝刺">DASH</button>
+      <button id="btnRight" aria-label="向右">▶</button>
     </div>
 
-    <!-- How to overlay -->
-    <div id="howTo" class="overlay panel" hidden>
-      <div class="how">
-        <div class="how-header" style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
-          <h2 id="howTitle" style="margin:0">玩法說明</h2>
-          <button id="closeHow" class="btn outline">關閉</button>
+    <div id="menu" class="overlay show">
+      <div class="panel">
+        <h1 id="title">Catch & Chow</h1>
+
+        <div class="menu-group">
+          <button id="menuStart" disabled>Loading…</button>
+          <button id="menuHow" class="secondary">How to Play</button>
+
+          <div class="difficulty">
+            <span id="diffLabel">Difficulty:</span>
+            <button class="diff" data-d="easy">Easy</button>
+            <button class="diff active" data-d="normal">Normal</button>
+            <button class="diff" data-d="hard">Hard</button>
+          </div>
+
+          <div class="timeSel">
+            <span id="timeLabel">Time:</span>
+            <button class="timebtn active" data-t="30">30s</button>
+            <button class="timebtn" data-t="60">60s</button>
+          </div>
+
+          <div class="lang">
+            <span id="langLabel">Language:</span>
+            <button class="langbtn" data-lang="ja">日本語</button>
+            <button class="langbtn active" data-lang="zh">中文</button>
+            <button class="langbtn" data-lang="en">English</button>
+          </div>
         </div>
-        <div id="howtoBody">
-          <ul id="howList"></ul>
+
+        <div id="howTo" class="how" hidden>
+          <h2 id="howTitle">How to Play</h2>
+          <ul id="howList">
+            <li>Control X & the Dragon to eat falling items.</li>
+            <li>PC: ← → / A D to move; press Shift to dash toward the current/last direction.</li>
+            <li>Mobile: Hold ◀ ▶ to move; press DASH to dash.</li>
+            <li>Star +1, Dog +50, Sushi +200, Bird +500; Rest −50, Ban −200.</li>
+            <li>Eating a dog makes MILLION appear (top‑right). Star combo +500 per 5 stars.</li>
+          </ul>
+          <button id="closeHow">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="overlayGameOver" class="overlay">
+      <div class="panel">
+        <h1 id="overTitle">Time Up!</h1>
+        <p id="finalScore">Score: 0</p>
+        <p id="bestScore">Best: 0</p>
+        <div class="menu-group">
+          <button id="btnRestartSame">Play Again (Same)</button>
+          <button id="btnBackToMenu" class="secondary">Back to Title</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Game Over Overlay -->
-  <div id="overlayGameOver" class="overlay panel" hidden>
-    <div class="dialog">
-      <h2 id="overTitle">時間到！</h2>
-      <div class="scores">
-        <div><span id="finalScore">0</span></div>
-        <div><small>Best: <span id="bestScore">0</span></small></div>
-      </div>
-      <button id="btnRestartSame" class="btn primary">再玩一次（同難度）</button>
-      <button id="btnBackToMenu" class="btn outline">回到標題</button>
-    </div>
-  </div>
-
-  <script src="game.js?v=19.8.6n"></script>
+  <script src="game.js?v=19.8.4"></script>
 </body>
 </html>
