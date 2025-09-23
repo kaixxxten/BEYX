@@ -353,3 +353,35 @@ body.playing.ctlactive #btnMute { pointer-events: none; opacity: 0.85; }
 #howtoBody::-webkit-scrollbar-thumb, .howto-body::-webkit-scrollbar-thumb { background: #aab2bd; border-radius: 8px; }
 #howtoBody::-webkit-scrollbar-thumb:hover, .howto-body::-webkit-scrollbar-thumb:hover { background: #97a0ab; }
 
+
+/* === v19.8.6n Menu size fix + How-to typography + scroll === */
+
+/* Fix menu panel width/controls sizing so switching languages doesn't resize layout */
+#menuPanel{ width:min(92vw, 640px); margin:0 auto; }
+#menuPanel .row{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
+#menuPanel button{ min-width:240px; height:56px; font-size:20px; }
+@media (max-width:520px){
+  #menuPanel button{ min-width:44vw; height:50px; font-size:18px; }
+}
+
+/* How-to heading/body smaller as requested */
+#howtoBody h2{ font-size:18px; margin:8px 0 6px; }
+#howtoBody{ font-size:14px; line-height:1.55; }
+#howtoBody li{ margin:6px 0; }
+
+/* Ensure how-to scroll works even with body touch lock */
+body.menu #howto, body.menu #howtoBody{ touch-action:pan-y !important; }
+body.menu #howtoBody{ 
+  max-height:min(68vh,560px) !important; 
+  overflow-y:auto !important; 
+  -webkit-overflow-scrolling:touch; 
+  overscroll-behavior:contain; 
+  padding-right:8px;
+  scrollbar-width:thin;
+  scrollbar-color:#aab2bd transparent;
+}
+body.menu #howtoBody::-webkit-scrollbar{ width:8px; }
+body.menu #howtoBody::-webkit-scrollbar-track{ background:rgba(0,0,0,.08); border-radius:8px; }
+body.menu #howtoBody::-webkit-scrollbar-thumb{ background:#aab2bd; border-radius:8px; }
+body.menu #howtoBody::-webkit-scrollbar-thumb:hover{ background:#97a0ab; }
+

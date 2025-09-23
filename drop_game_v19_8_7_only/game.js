@@ -1,3 +1,4 @@
+try{document.body.classList.add('menu');}catch(e){}
 // ====== DPR & 自適應方形布局 ======
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -316,6 +317,7 @@ document.addEventListener("visibilitychange", ()=>{
 // ====== HUD ======
 function setHUDVisible(v){ topHUD.hidden=!v; layoutSquare(); }
 function setPlayingFlag(on){ document.body.classList.toggle('playing', !!on); }
+function setMenuFlag(on){ document.body.classList.toggle('menu', !!on); }
 function setControlsActive(on){ document.body.classList.toggle('ctlactive', !!on); }
 function updateComboHUD(){ topComboEl.textContent = `${i18n[lang].comboHUD}${starStreak}`; }
 
@@ -344,6 +346,7 @@ const fx=document.createElement("canvas"); const fxCtx=fx.getContext("2d"); fx.w
 function addHurtFlash(ms=300,s=1){ hurtFlash=Math.min(1,s); hurtDecayMs=ms; }
 
 function startGame(){
+  setMenuFlag(false);
   setPlayingFlag(true);
   state="playing"; score=0; timeLeft=gameDuration; items=[]; mascot.visible=false; popups=[];
   prevSecond=null; timeupPlayed=false; paused=false; spawnTimer=0;
@@ -354,6 +357,7 @@ function startGame(){
 }
 
 function goToMenu(){
+  setMenuFlag(true);
   setPlayingFlag(false);
   state="menu"; items=[]; popups=[]; mascot.visible=false;
   stopBGM(); setHUDVisible(false); controls.hidden = true; layoutSquare();
