@@ -175,15 +175,16 @@ function updateMuteUI(){ btnMute.textContent = muted ? "🔇" : "🔊"; bgm.mute
 updateMuteUI();
 btnMute.addEventListener("click", ()=>{ muted=!muted; localStorage.setItem("muted", muted?"1":"0"); updateMuteUI(); if(muted) bgm.pause(); else if(state==="playing") startBGM(); });
 
-// Small author label left to the mute button
+// Author label (bottom-right of canvas)
 (function(){
   try{
-    let tag = document.getElementById('authorTag');
+    let tag = document.getElementById("authorCorner");
     if(!tag){
-      tag = document.createElement('div');
-      tag.id = 'authorTag';
-      tag.textContent = 'X@kaixxxten';
-      btnMute.parentNode.insertBefore(tag, btnMute);
+      tag = document.createElement("div");
+      tag.id = "authorCorner";
+      tag.textContent = "X@kaixxxten";
+      const host = document.getElementById("canvasBox") || document.body;
+      host.appendChild(tag);
     }
   }catch(e){}
 })();

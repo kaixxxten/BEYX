@@ -271,17 +271,6 @@ body.playing #btnMute { pointer-events: none; opacity: 0.85; }
 /* === v19.8.6i UI polish === */
 
 /* 1) 作者小字：放在音量左側 */
-#authorTag{
-  margin-left:auto;
-  margin-right:8px;
-  font-size:12px;
-  font-weight:700;
-  color:#cfd3d8;
-  opacity:.9;
-  pointer-events:none;
-  user-select:none;
-  white-space:nowrap;
-}
 
 /* 2) How-to 面板可滾動 + 行動裝置縮字 */
 #howtoBody{
@@ -298,4 +287,22 @@ body.playing #btnMute { pointer-events: none; opacity: 0.85; }
 
 /* 3) 再降低底部按鍵陰影以減少 GPU 壓力 */
 #controls button{ box-shadow: 0 2px 0 rgba(0,0,0,.35); }
+
+
+/* === v19.8.6j Author tag moved to canvas bottom-right === */
+#canvasBox{ position: relative; } /* ensure absolute children anchor */
+#authorCorner{
+  position:absolute;
+  right:12px;
+  bottom:8px;
+  font-size:12px;
+  font-weight:700;
+  color:#fff;
+  opacity:.92;
+  text-shadow: 0 1px 0 rgba(0,0,0,.6);
+  pointer-events:none;
+  user-select:none;
+  letter-spacing:.3px;
+  white-space:nowrap;
+}
 
