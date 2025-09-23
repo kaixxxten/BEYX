@@ -115,7 +115,6 @@ button.secondary{background:#fff;color:#111}
   #btnDash{ font-size:14px; padding:10px 14px; }
 }
 
-
 /* === v19.8.6b HUD tighten === */
 @media (max-width: 520px){
   :root{ --hud-w: 140px; --hud-fs: 16px; }
@@ -135,7 +134,6 @@ button.secondary{background:#fff;color:#111}
   .stat{ padding:3px 6px; }
   .mute{ padding:4px 6px; min-width:36px; font-size:14px; }
 }
-
 
 /* === v19.8.6c HUD Combined pill (Time + Mute) === */
 /* 把右側容器 .right 直接做成一個 stat 風格的膠囊，內含 Time 文字與音量鈕 */
@@ -179,7 +177,6 @@ button.secondary{background:#fff;color:#111}
   .topbar .right .mute{ min-width:32px; font-size:13px; padding:3px 5px; }
 }
 
-
 /* === v19.8.6d HUD: Score|Star|Time segmented pill + Mute on right === */
 /* 改回 Flex 版面：左側 3 個 stat 串成一顆「分段膠囊」，右側只有音量鈕 */
 .topbar{
@@ -221,7 +218,6 @@ button.secondary{background:#fff;color:#111}
   #btnMute.mute{ min-width:34px; font-size:13px; padding:3px 6px; }
 }
 
-
 /* === v19.8.6e HUD fix: restore white bg for Time, square corners, clean borders === */
 
 /* 讓三段（Score/Star/Time）都是方角、各段白底；僅最後一段畫右邊框，避免中間雙線 */
@@ -254,7 +250,6 @@ button.secondary{background:#fff;color:#111}
   border-radius: 10px;
 }
 
-
 /* === v19.8.6g Mobile lag + accidental mute fix === */
 * { -webkit-tap-highlight-color: transparent; }
 body, #wrap, #canvasBox, canvas { touch-action: none; }
@@ -263,10 +258,8 @@ button:focus, .mute:focus, .stat:focus { outline: none; }
 
 /* 遊戲中禁用右上音量的點擊（避免誤觸），回到選單再恢復 */
 
-
 /* 讓底部控制鍵更抗誤觸 */
 #controls button { touch-action: none; }
-
 
 /* === v19.8.6i UI polish === */
 
@@ -288,7 +281,6 @@ button:focus, .mute:focus, .stat:focus { outline: none; }
 /* 3) 再降低底部按鍵陰影以減少 GPU 壓力 */
 #controls button{ box-shadow: 0 2px 0 rgba(0,0,0,.35); }
 
-
 /* === v19.8.6j Author tag moved to canvas bottom-right === */
 #canvasBox{ position: relative; } /* ensure absolute children anchor */
 #authorCorner{
@@ -306,10 +298,8 @@ button:focus, .mute:focus, .stat:focus { outline: none; }
   white-space:nowrap;
 }
 
-
 /* v19.8.6k: Mute clickable during play; disable only while controls held to avoid mis-taps */
 body.playing.ctlactive #btnMute { pointer-events: none; opacity: 0.85; }
-
 
 /* v19.8.6l: How-to scroll area with visible right scrollbar */
 #howtoBody{
@@ -331,27 +321,30 @@ body.playing.ctlactive #btnMute { pointer-events: none; opacity: 0.85; }
   #howtoBody{ font-size: 13px; }
 }
 
+/* Desktop: show note below canvas when controls are hidden */
+@media (hover: hover) and (pointer: fine){
+  #canvasBox{ position: relative; }
+  
+}
 
-/* === How-to readable (title 14px, body 12px) — robust selectors === */
-#howtoBody, #howtoBody ul, #howList, #howTo ul, .how ul{
-  font-size: 12px !important;
-  line-height: 1.5 !important;
-}
-#howTo h2, .how h2, #howtoBody h2{
-  font-size: 14px !important;
-  margin: 8px 0 6px;
-}
-#howtoBody li, #howTo li, .how li{ margin: 5px 0 !important; }
+/* --- DASH note: always on mobile/tablet, Japanese text, white, above button --- */
+#btnDash{ position: relative; }
 
+#title{ display: none !important; }
 
-/* === Smaller main title (menu h1) === */
-#menu h1#title, #menu .card h1#title, .card h1#title, h1#title, #title{
-  font-size: 26px !important;
-  line-height: 1.2 !important;
+/* === how-to typography: title 14px, body 12px === */
+#howTitle{ font-size:14px !important; line-height:1.3; }
+#howList{ font-size:12px !important; line-height:1.6; }
+
+/* Note above DASH (mobile/tablet) */
+#btnDash{ position: relative; }
+
+/* Note under canvas (desktop) */
+@media (hover: hover) and (pointer: fine){
+  #canvasBox{ position: relative; }
+  
 }
-@media (max-width: 480px){
-  #menu h1#title, #menu .card h1#title, .card h1#title, h1#title, #title{
-    font-size: 22px !important;
-  }
-}
+
+/* Cover any in-canvas bottom-right watermark text */
+#canvasBox{ position: relative; }
 

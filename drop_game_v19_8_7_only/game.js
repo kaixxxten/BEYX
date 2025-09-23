@@ -62,13 +62,12 @@ const i18n = {
         timeLabel:"時間：", t30:"30 秒", t60:"60 秒", lang:"語言：",
         howTitle:"玩法說明",
         howItems:[
-          "操作艾克斯和巨龍移動吃東西",
-          "PC：鍵盤 ← → / A D 移動；按下 Shift 觸發「極限衝刺!!」",
-          "手機：點住下方 ◀ ▶ 移動；按「DASH」鍵依當前方向觸發",
-          "30 或 60 秒內盡量吃高分：star +1、dog +50、sushi +200、bird +500",
-          "rest -50、ban -200；吃到 dog 會讓右上角 MILLION 現身",
-          "星星連擊：避開 rest/ban；每 5 顆 +500 並 +15 秒（可連續）"
-        ],
+  "操作艾克斯和巨龍移動吃東西",
+  "PC：鍵盤 ← → / A D 移動；按下 Shift 觸發「極限衝刺!!」",
+  "手機：點住下方 ◀ ▶ 移動；按「DASH」鍵依當前方向觸發",
+  "分數說明：白星 +1、三頭犬 +50、壽司 +200、阿鳥 +500；休息 -50、禁賽 -200；吃到三頭犬會讓右上角狗哥現身",
+  "星星連擊：避開 休息/禁賽；每 5 顆 +500（可連續）簡單不加秒、普通 +3s、困難 +8s"
+],
         over:"時間到！", restartSame:"再玩一次（同難度）", backToMenu:"回到標題",
         score:"分數", time:"時間", best:"最佳", comboHUD:"⭐ ", dash:"極限衝刺!!" },
   ja: { title:"キャッチして食べるゲーム", start:"ゲーム開始", loading:"読み込み中…", how:"遊び方", close:"閉じる",
@@ -76,27 +75,25 @@ const i18n = {
         timeLabel:"時間：", t30:"30秒", t60:"60秒", lang:"言語：",
         howTitle:"遊び方",
         howItems:[
-          "エクスとドラゴンを操作して落ちてくるものを食べよう",
-          "PC：← → / A D で移動；Shift で「エクストリームダッシュ」",
-          "スマホ：◀ ▶ で移動；「DASH」で現在方向にダッシュ",
-          "30秒または60秒で高得点：スター +1、犬 +50、寿司 +200、バード +500",
-          "休憩 -50、出場禁止 -200；犬を食べると右上にMILLIONが登場",
-          "スター連続：rest/banを避け、5個ごとに +500 と +15秒（連続）"
-        ],
+  "エクスとドラゴンを操作して落ちてくるものを食べよう",
+  "PC：← → / A D で移動；Shift で「エクストリームダッシュ!!」",
+  "スマホ：下の ◀ ▶ を押して移動；「DASH」で現在方向にダッシュ",
+  "スコア：スター +1、ケルベロス +50、寿司 +200、バード +500／休憩 -50、出場禁止 -200；ケルベロスを食べると右上にミリオンさんが登場",
+  "スターコンボ：休憩・出場禁止を避けよう。5個ごとに +500（連続可）。イージー加算なし／ノーマル +3秒／ハード +8秒"
+],
         over:"時間切れ！", restartSame:"もう一度（同じ難易度）", backToMenu:"タイトルへ",
         score:"スコア", time:"時間", best:"ベスト", comboHUD:"⭐ ", dash:"エクストリームダッシュ" },
-  en: { title:"Catching Game", start:"Start Game", loading:"Loading…", how:"How to Play", close:"Close",
+  en: { title:"Catch & Chow", start:"Start Game", loading:"Loading…", how:"How to Play", close:"Close",
         difficulty:"Difficulty:", easy:"Easy", normal:"Normal", hard:"Hard",
         timeLabel:"Time:", t30:"30s", t60:"60s", lang:"Language:",
         howTitle:"How to Play",
         howItems:[
-          "Control X and the Dragon to move and eat falling items.",
-          "PC: ← → / A D to move; press Shift to trigger \"Xtreme Dash!!\"",
-          "Mobile: Hold ◀ ▶ to move; press the DASH button to dash",
-          "Go for a high score in 30 or 60 seconds: star +1, dog +50, sushi +200, bird +500",
-          "rest −50, ban −200; eating a dog makes MILLION appear top‑right",
-          "Star combo: avoid rest/ban; every 5 stars +500 & +15s (chainable)"
-        ],
+  "Control X and the Dragon to eat falling items",
+  "PC: move with ← → or A/D; press Shift to trigger Xtreme Dash!!",
+  "Mobile: hold ◀ ▶ to move; press DASH to dash in your current direction",
+  "Scoring: star +1, dog +50, sushi +200, bird +500; penalties: rest −50, ban −200; eating a dog makes MILLION appear top-right",
+  "Star combo: avoid rest/ban. Every 5 stars gives +500 (chainable). Easy adds no time; Normal +3s; Hard +8s"
+],
         over:"Time Up!", restartSame:"Play Again (Same)", backToMenu:"Back to Title",
         score:"Score", time:"Time", best:"Best", comboHUD:"⭐ ", dash:"Xtreme Dash!!" }
 };
@@ -465,8 +462,8 @@ function render(ts){
   for(let i=popups.length-1;i>=0;i--){
     const p=popups[i];
     if(p.type==="dash"){
-      const text=i18n[lang].dash, padX=7, bh=16;
-      ctx.save(); ctx.font="bold 11px Arial"; const w=ctx.measureText(text).width + padX*2;
+      const text=i18n[lang].dash, padX=8, bh=22;
+      ctx.save(); ctx.font="bold 15px Arial"; const w=ctx.measureText(text).width + padX*2;
       const x=p.x - w/2, y=p.y - bh; ctx.globalAlpha=0.9*p.alpha;
       ctx.fillStyle="#000"; ctx.strokeStyle="#00FF7F"; ctx.lineWidth=2;
       roundRect(ctx,x,y,w,bh,5); ctx.fill(); ctx.stroke();
