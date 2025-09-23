@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <title>掉落遊戲</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="wrap">
+    <div id="topHUD" class="topbar" hidden>
+      <div id="topScore" class="stat">Score: 0</div>
+      <div id="topCombo" class="stat">⭐ 0</div>
+      <div class="right">
+        <div id="topTime" class="stat">Time: 30</div>
+        <button id="btnMute" class="mute" aria-label="Toggle mute">🔊</button>
+      </div>
+    </div>
+
+    <div id="canvasBox">
+      <canvas id="gameCanvas" width="800" height="800"></canvas>
+    </div>
+
+    <div id="controls" hidden>
+      <button id="btnLeft" aria-label="向左">◀</button>
+      <button id="btnDash" aria-label="極限衝刺">DASH</button>
+      <button id="btnRight" aria-label="向右">▶</button>
+    </div>
+
+    <div id="menu" class="overlay show">
+      <div class="panel">
+        <h1 id="title">Catch & Chow</h1>
+
+        <div class="menu-group">
+          <button id="menuStart" disabled>Loading…</button>
+          <button id="menuHow" class="secondary">How to Play</button>
+
+          <div class="difficulty">
+            <span id="diffLabel">Difficulty:</span>
+            <button class="diff" data-d="easy">Easy</button>
+            <button class="diff active" data-d="normal">Normal</button>
+            <button class="diff" data-d="hard">Hard</button>
+          </div>
+
+          <div class="timeSel">
+            <span id="timeLabel">Time:</span>
+            <button class="timebtn active" data-t="30">30s</button>
+            <button class="timebtn" data-t="60">60s</button>
+          </div>
+
+          <div class="lang">
+            <span id="langLabel">Language:</span>
+            <button class="langbtn" data-lang="ja">日本語</button>
+            <button class="langbtn active" data-lang="zh">中文</button>
+            <button class="langbtn" data-lang="en">English</button>
+          </div>
+        </div>
+
+        <div id="howTo" class="how" hidden>
+          <h2 id="howTitle">How to Play</h2>
+          <ul id="howList">
+            <li>Control X & the Dragon to eat falling items.</li>
+            <li>PC: ← → / A D to move; press Shift to dash toward the current/last direction.</li>
+            <li>Mobile: Hold ◀ ▶ to move; press DASH to dash.</li>
+            <li>Star +1, Dog +50, Sushi +200, Bird +500; Rest −50, Ban −200.</li>
+            <li>Eating a dog makes MILLION appear (top‑right). Star combo +500 per 5 stars.</li>
+          </ul>
+          <button id="closeHow">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="overlayGameOver" class="overlay">
+      <div class="panel">
+        <h1 id="overTitle">Time Up!</h1>
+        <p id="finalScore">Score: 0</p>
+        <p id="bestScore">Best: 0</p>
+        <div class="menu-group">
+          <button id="btnRestartSame">Play Again (Same)</button>
+          <button id="btnBackToMenu" class="secondary">Back to Title</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js?v=19.8.5"></script>
+</body>
+</html>

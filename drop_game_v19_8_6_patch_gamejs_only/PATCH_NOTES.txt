@@ -1,0 +1,5 @@
+v19.8.6 — Minimal patch (only game.js)
+- Normal/Hard 掉落再加速：Normal 180/240、Hard 280/380（initVy/gravity）。
+- 星星連擊（每 5 顆）加秒數：Normal +3s、Hard +8s、Easy 12s；且最多加到「起始時長 +15s」。
+- 負面物件（rest/ban）靠近玩家時會「重力加速」：距離越近越快（Hard 係數最高）。
+- 保留 v19.8.5 的：Hard 負面基礎更快、左右邊界安全距、Mobile 方形、自動預載容錯等。
