@@ -262,7 +262,7 @@ button, .stat, .mute { -webkit-user-select: none; user-select: none; }
 button:focus, .mute:focus, .stat:focus { outline: none; }
 
 /* 遊戲中禁用右上音量的點擊（避免誤觸），回到選單再恢復 */
-body.playing #btnMute { pointer-events: none; opacity: 0.85; }
+
 
 /* 讓底部控制鍵更抗誤觸 */
 #controls button { touch-action: none; }
@@ -295,7 +295,7 @@ body.playing #btnMute { pointer-events: none; opacity: 0.85; }
   position:absolute;
   right:12px;
   bottom:8px;
-  font-size:12px;
+  font-size: 10px;
   font-weight:700;
   color:#fff;
   opacity:.92;
@@ -304,5 +304,30 @@ body.playing #btnMute { pointer-events: none; opacity: 0.85; }
   user-select:none;
   letter-spacing:.3px;
   white-space:nowrap;
+}
+
+
+/* v19.8.6k: Mute clickable during play; disable only while controls held to avoid mis-taps */
+body.playing.ctlactive #btnMute { pointer-events: none; opacity: 0.85; }
+
+
+/* v19.8.6l: How-to scroll area with visible right scrollbar */
+#howtoBody{
+  max-height: min(62vh, 520px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;           /* Firefox */
+  scrollbar-color: #aab2bd transparent;
+}
+/* Chrome / Edge */
+#howtoBody::-webkit-scrollbar{ width: 8px; }
+#howtoBody::-webkit-scrollbar-track{ background: rgba(0,0,0,0.08); border-radius: 8px; }
+#howtoBody::-webkit-scrollbar-thumb{ background: #aab2bd; border-radius: 8px; }
+#howtoBody::-webkit-scrollbar-thumb:hover{ background: #97a0ab; }
+@media (max-width: 480px){
+  #howtoBody{ font-size: 14px; line-height: 1.5; }
+}
+@media (max-width: 380px){
+  #howtoBody{ font-size: 13px; }
 }
 

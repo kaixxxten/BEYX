@@ -316,6 +316,7 @@ document.addEventListener("visibilitychange", ()=>{
 // ====== HUD ======
 function setHUDVisible(v){ topHUD.hidden=!v; layoutSquare(); }
 function setPlayingFlag(on){ document.body.classList.toggle('playing', !!on); }
+function setControlsActive(on){ document.body.classList.toggle('ctlactive', !!on); }
 function updateComboHUD(){ topComboEl.textContent = `${i18n[lang].comboHUD}${starStreak}`; }
 
 // ====== 預載 & 綁定 ======
@@ -385,7 +386,7 @@ function step(dt){
       const boost = 1 + close * (difficulty==="hard" ? 0.70 : (difficulty==="normal" ? 0.45 : 0.0));
       gAdd *= boost;
     }
-    it.vy += gAdd*(dt/1000); it.y += it.vy*(dt/1000);
+    const ft = Math.min(0.030, dt/1000); it.vy += gAdd*ft; it.y += it.vy*ft;
     const neg=(it.type==='rest'||it.type==='ban'); const canHit=!neg || performance.now()>=iFramesUntil;
     if(canHit && smartCollide(player,it)){
       const val=ITEM_RULES[it.type].score; score+=val; playSound(it.type);
@@ -496,3 +497,18 @@ function render(ts){
 }
 
 // ====== 菜單控制 ======
+
+;['pointerup','pointercancel','pointerleave','pointerout'].forEach(ev=>{
+  [btnLeft,btnRight,btnDash].forEach(b=> b.addEventListener(ev, ()=> setControlsActive(false)));
+});
+window.addEventListener('pointerup', ()=> setControlsActive(false));
+
+
+// v19.8.6l: throttle dash popup on touch to reduce spikes
+let lastDashPopup=0;
+function dashPopup(x,y,text,color,size){
+  const now=performance.now();
+  if(IS_TOUCH && now-lastDashPopup<300) return;
+  lastDashPopup=now;
+  popups.push({type:"text",x,y,text,alpha:1,color,size});
+}
