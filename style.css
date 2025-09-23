@@ -1,0 +1,333 @@
+:root{
+  --panel-w: 600px;
+  --btn-w: 260px;
+  --btn-h: 44px;
+  --diff-w: 120px;
+  --lang-w: 120px;
+
+  --hud-w: 190px;
+  --hud-fs: 18px;
+}
+*{box-sizing:border-box}
+html,body{height:100%;}
+body{
+  margin:0;background:#222;color:#111;font-family:sans-serif;
+  display:flex;align-items:center;justify-content:center;min-height:100dvh;padding:10px;
+  overscroll-behavior: none;
+}
+#wrap{position:relative;text-align:center;max-width:100%}
+#canvasBox{display:flex;align-items:center;justify-content:center}
+canvas{
+  background:#fff;border:3px solid #000;display:block;
+}
+
+/* Top HUD 寬度和畫布同步 */
+.topbar{
+  display:flex;justify-content:space-between;align-items:center;gap:8px;
+  margin:0 auto;max-width:100%;flex-wrap:wrap;
+}
+.topbar .right{display:flex;align-items:center;gap:8px}
+.stat{
+  background:rgba(255,255,255,.92);border:2px solid #111;border-radius:12px;
+  padding:6px 10px;font-weight:800;min-width:var(--hud-w);font-size:var(--hud-fs);text-align:left
+}
+.mute{border:2px solid #111;background:#fff;color:#111;border-radius:12px;padding:8px 12px;font-weight:800;font-size:18px;min-width:52px;cursor:pointer}
+
+.overlay{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.4);padding:10px;z-index:10}
+.overlay.show{display:flex}
+.panel{background:#fff;padding:calc(20px + env(safe-area-inset-top)) 20px 20px;border-radius:16px;border:2px solid #111;text-align:center;
+  width:var(--panel-w);max-width:min(96vw,var(--panel-w));}
+.panel h1{margin:6px 0 12px;white-space:nowrap}
+button{cursor:pointer;border:2px solid #111;background:#111;color:#fff;padding:10px 16px;border-radius:12px;font-weight:700}
+button:hover{filter:brightness(1.06)}
+button[disabled]{opacity:0.6;cursor:not-allowed}
+button.secondary{background:#fff;color:#111}
+.menu-group{display:flex;flex-direction:column;gap:10px;margin-bottom:10px;align-items:center}
+.menu-group>button{width:var(--btn-w);min-height:var(--btn-h)}
+.difficulty,.lang,.timeSel{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center}
+.difficulty span,.lang span,.timeSel span{white-space:nowrap}
+.diff{background:#444;width:var(--diff-w);min-height:var(--btn-h)}
+.diff.active{background:#0a7}
+.langbtn,.timebtn{background:#555;width:var(--lang-w);min-height:var(--btn-h)}
+.langbtn.active,.timebtn.active{background:#0a5}
+.how{text-align:left;max-width:100%}
+.how ul{padding-left:18px;margin:8px 0}
+
+/* 觸控裝置：顯示螢幕按鍵；桌機預設隱藏 */
+#controls{
+  margin-top:10px;display:flex;justify-content:center;gap:16px;
+  position:sticky; bottom:env(safe-area-inset-bottom); z-index:2;
+}
+#controls button{font-size:28px;padding:16px 22px;border-radius:16px;touch-action:none;user-select:none}
+#btnDash{font-size:18px; font-weight:800; letter-spacing:1px}
+@media (hover: hover) and (pointer: fine){
+  #controls{ display:none !important; }
+}
+
+@media (max-width: 480px){
+  :root{ --hud-w: 130px; --hud-fs: 14px; }
+  #controls{ gap:12px; margin-top:12px; }
+  #btnDash{ font-size:16px; padding:14px 18px; }
+}
+@media (max-width: 380px){
+  :root{ --hud-w: 112px; --hud-fs: 13px; }
+}
+
+/* === v19.8.6.HUD CSS patch (merged) === */
+
+/* Top HUD → 三欄 Grid：Score | ⭐ | Time+Mute 同一排對齊 */
+.topbar{
+  display:grid !important;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items:center;
+  justify-items:stretch;
+  gap:8px;
+}
+.topbar .right{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
+}
+
+/* 小螢幕時縮小 HUD 盒寬與字級，避免換行 */
+@media (max-width: 520px){
+  :root{ --hud-w: 150px; --hud-fs: 16px; }
+}
+@media (max-width: 460px){
+  :root{ --hud-w: 130px; --hud-fs: 14px; }
+}
+@media (max-width: 400px){
+  :root{ --hud-w: 118px; --hud-fs: 13px; }
+}
+@media (max-width: 360px){
+  :root{ --hud-w: 108px; --hud-fs: 12px; }
+}
+
+/* 行動裝置的 ◀ DASH ▶ 按鈕縮小（更不遮畫面） */
+@media (hover: none) and (pointer: coarse){
+  #controls{ gap:10px; }
+  #controls button{ font-size:22px; padding:12px 16px; border-radius:14px; }
+  #btnDash{ font-size:16px; padding:12px 16px; }
+}
+@media (max-width: 400px){
+  #controls button{ font-size:20px; padding:10px 14px; border-radius:12px; }
+  #btnDash{ font-size:14px; padding:10px 14px; }
+}
+
+
+/* === v19.8.6b HUD tighten === */
+@media (max-width: 520px){
+  :root{ --hud-w: 140px; --hud-fs: 16px; }
+}
+@media (max-width: 460px){
+  :root{ --hud-w: 120px; --hud-fs: 14px; }
+  .stat{ padding:5px 8px; }
+  .mute{ padding:6px 8px; min-width:44px; font-size:16px; }
+}
+@media (max-width: 400px){
+  :root{ --hud-w: 108px; --hud-fs: 13px; }
+  .stat{ padding:4px 7px; }
+  .mute{ padding:5px 7px; min-width:40px; font-size:15px; }
+}
+@media (max-width: 360px){
+  :root{ --hud-w: 98px; --hud-fs: 12px; }
+  .stat{ padding:3px 6px; }
+  .mute{ padding:4px 6px; min-width:36px; font-size:14px; }
+}
+
+
+/* === v19.8.6c HUD Combined pill (Time + Mute) === */
+/* 把右側容器 .right 直接做成一個 stat 風格的膠囊，內含 Time 文字與音量鈕 */
+.topbar .right{
+  background:rgba(255,255,255,.92);
+  border:2px solid #111;
+  border-radius:12px;
+  padding:6px 8px;
+  min-width:var(--hud-w);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+/* 右側容器裡的 Time 文本，取消它自己的 stat 外框，變成純文字 */
+.topbar .right #topTime.stat{
+  background:transparent;
+  border:0;
+  padding:0;
+  min-width:auto;
+  font-weight:800;
+  font-size:var(--hud-fs);
+}
+/* 音量鈕在膠囊裡縮小 */
+.topbar .right .mute{
+  padding:6px 8px;
+  min-width:40px;
+  font-size:16px;
+  border-radius:9px;
+}
+@media (max-width: 460px){
+  .topbar .right{ padding:5px 7px; gap:6px; }
+  .topbar .right .mute{ min-width:36px; font-size:15px; padding:5px 6px; }
+}
+@media (max-width: 400px){
+  .topbar .right{ padding:4px 6px; gap:5px; }
+  .topbar .right .mute{ min-width:34px; font-size:14px; padding:4px 6px; }
+}
+@media (max-width: 360px){
+  .topbar .right{ padding:3px 5px; gap:4px; }
+  .topbar .right .mute{ min-width:32px; font-size:13px; padding:3px 5px; }
+}
+
+
+/* === v19.8.6d HUD: Score|Star|Time segmented pill + Mute on right === */
+/* 改回 Flex 版面：左側 3 個 stat 串成一顆「分段膠囊」，右側只有音量鈕 */
+.topbar{
+  display:flex !important;
+  align-items:center;
+  gap:8px;
+}
+/* 讓 .right 失去容器性質，把 #topTime 與 #btnMute 提升到同一層 */
+.topbar .right{ display: contents; }
+
+/* 三段合併：Score / Star / Time 連在一起像一顆膠囊 */
+#topScore.stat, #topCombo.stat, #topTime.stat{
+  display:inline-block;
+  min-width:var(--hud-seg-w, 120px);
+  text-align:left;
+  border-radius:0;
+  border-right:none;
+}
+#topScore.stat{ border-top-left-radius:12px; border-bottom-left-radius:12px; }
+#topTime.stat{ border-right:2px solid #111; border-top-right-radius:12px; border-bottom-right-radius:12px; }
+
+/* 把 Mute 推到最右邊並縮小 */
+#btnMute.mute{ margin-left:auto; padding:6px 10px; min-width:44px; font-size:16px; border-radius:10px; }
+
+/* 小螢幕：再縮每段寬度與字級，避免換行/溢出 */
+@media (max-width: 520px){
+  :root{ --hud-seg-w: 110px; --hud-fs: 16px; }
+}
+@media (max-width: 460px){
+  :root{ --hud-seg-w: 100px; --hud-fs: 14px; }
+  #btnMute.mute{ min-width:40px; font-size:15px; padding:5px 8px; }
+}
+@media (max-width: 400px){
+  :root{ --hud-seg-w: 92px; --hud-fs: 13px; }
+  #btnMute.mute{ min-width:36px; font-size:14px; padding:4px 7px; }
+}
+@media (max-width: 360px){
+  :root{ --hud-seg-w: 86px; --hud-fs: 12px; }
+  #btnMute.mute{ min-width:34px; font-size:13px; padding:3px 6px; }
+}
+
+
+/* === v19.8.6e HUD fix: restore white bg for Time, square corners, clean borders === */
+
+/* 讓三段（Score/Star/Time）都是方角、各段白底；僅最後一段畫右邊框，避免中間雙線 */
+#topScore.stat, #topCombo.stat, #topTime.stat{
+  border-radius: 0 !important;
+  background: rgba(255,255,255,.92) !important;
+  border: 2px solid #111 !important;
+  border-right: none !important;
+  padding: 6px 10px !important;
+  min-width: var(--hud-seg-w, 120px);
+  display: inline-block;
+  text-align: left;
+}
+
+/* 最後一段（Time）補上右邊框，確保整體外框完整 */
+#topTime.stat{
+  border-right: 2px solid #111 !important;
+}
+
+/* 若仍有舊版規則把 Time 設透明，這裡再用更高權重覆蓋 */
+.topbar #topTime.stat{
+  background: rgba(255,255,255,.92) !important;
+  border-radius: 0 !important;
+  padding: 6px 10px !important;
+}
+
+/* 音量鈕維持在最右，獨立小膠囊即可 */
+#btnMute.mute{
+  margin-left: auto;
+  border-radius: 10px;
+}
+
+
+/* === v19.8.6g Mobile lag + accidental mute fix === */
+* { -webkit-tap-highlight-color: transparent; }
+body, #wrap, #canvasBox, canvas { touch-action: none; }
+button, .stat, .mute { -webkit-user-select: none; user-select: none; }
+button:focus, .mute:focus, .stat:focus { outline: none; }
+
+/* 遊戲中禁用右上音量的點擊（避免誤觸），回到選單再恢復 */
+
+
+/* 讓底部控制鍵更抗誤觸 */
+#controls button { touch-action: none; }
+
+
+/* === v19.8.6i UI polish === */
+
+/* 1) 作者小字：放在音量左側 */
+
+/* 2) How-to 面板可滾動 + 行動裝置縮字 */
+#howtoBody{
+  max-height: min(62vh, 520px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+@media (max-width: 480px){
+  #howtoBody{ font-size: 14px; line-height: 1.5; }
+}
+@media (max-width: 380px){
+  #howtoBody{ font-size: 13px; }
+}
+
+/* 3) 再降低底部按鍵陰影以減少 GPU 壓力 */
+#controls button{ box-shadow: 0 2px 0 rgba(0,0,0,.35); }
+
+
+/* === v19.8.6j Author tag moved to canvas bottom-right === */
+#canvasBox{ position: relative; } /* ensure absolute children anchor */
+#authorCorner{
+  position:absolute;
+  right:12px;
+  bottom:8px;
+  font-size: 10px;
+  font-weight:700;
+  color:#fff;
+  opacity:.92;
+  text-shadow: 0 1px 0 rgba(0,0,0,.6);
+  pointer-events:none;
+  user-select:none;
+  letter-spacing:.3px;
+  white-space:nowrap;
+}
+
+
+/* v19.8.6k: Mute clickable during play; disable only while controls held to avoid mis-taps */
+body.playing.ctlactive #btnMute { pointer-events: none; opacity: 0.85; }
+
+
+/* v19.8.6l: How-to scroll area with visible right scrollbar */
+#howtoBody{
+  max-height: min(62vh, 520px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;           /* Firefox */
+  scrollbar-color: #aab2bd transparent;
+}
+/* Chrome / Edge */
+#howtoBody::-webkit-scrollbar{ width: 8px; }
+#howtoBody::-webkit-scrollbar-track{ background: rgba(0,0,0,0.08); border-radius: 8px; }
+#howtoBody::-webkit-scrollbar-thumb{ background: #aab2bd; border-radius: 8px; }
+#howtoBody::-webkit-scrollbar-thumb:hover{ background: #97a0ab; }
+@media (max-width: 480px){
+  #howtoBody{ font-size: 14px; line-height: 1.5; }
+}
+@media (max-width: 380px){
+  #howtoBody{ font-size: 13px; }
+}
+
