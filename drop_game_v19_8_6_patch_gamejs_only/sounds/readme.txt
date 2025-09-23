@@ -1,1 +1,0 @@
-把音效放到這裡，檔名：dog.mp3 / sushi.mp3 / bird.mp3 / rest.mp3 / ban.mp3。
