@@ -267,3 +267,35 @@ body.playing #btnMute { pointer-events: none; opacity: 0.85; }
 /* 讓底部控制鍵更抗誤觸 */
 #controls button { touch-action: none; }
 
+
+/* === v19.8.6i UI polish === */
+
+/* 1) 作者小字：放在音量左側 */
+#authorTag{
+  margin-left:auto;
+  margin-right:8px;
+  font-size:12px;
+  font-weight:700;
+  color:#cfd3d8;
+  opacity:.9;
+  pointer-events:none;
+  user-select:none;
+  white-space:nowrap;
+}
+
+/* 2) How-to 面板可滾動 + 行動裝置縮字 */
+#howtoBody{
+  max-height: min(62vh, 520px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+@media (max-width: 480px){
+  #howtoBody{ font-size: 14px; line-height: 1.5; }
+}
+@media (max-width: 380px){
+  #howtoBody{ font-size: 13px; }
+}
+
+/* 3) 再降低底部按鍵陰影以減少 GPU 壓力 */
+#controls button{ box-shadow: 0 2px 0 rgba(0,0,0,.35); }
+
