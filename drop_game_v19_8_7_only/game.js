@@ -123,6 +123,7 @@ function applyLang(){
   langButtons.forEach(b=> b.classList.toggle("active", b.dataset.lang===lang));
 }
 
+function goText(){ return (lang==="ja"?"スタート!":(lang==="zh"?"開始!":"START!")); }
 // ====== 尺寸 ======
 const SIZES = {
   ban:{w:163/2,h:81/2}, bird:{w:211/2,h:168/2}, dog:{w:265/2,h:203/2},
@@ -199,6 +200,18 @@ function playSound(n){ if(muted) return; const P=audioPools[n]; if(!P) return; c
 function startBGM(){ if(!muted){ try{ bgm.currentTime=0; bgm.play(); }catch(e){} } }
 function stopBGM(){ try{ bgm.pause(); }catch(e){} }
 
+
+// ====== 開局倒數（3-2-1-START） ======
+let cdState = null; // {phase:0,last:0,seq:["3","2","1","START!"]}
+function beginPlayActual(){
+  setPlayingFlag(true);
+  state="playing"; score=0; timeLeft=gameDuration; items=[]; mascot.visible=false; popups=[];
+  prevSecond=null; timeupPlayed=false; paused=false; spawnTimer=0;
+  player.mode=null; player.modeTimer=0; starStreak=0; iFramesUntil=0; hurtFlash=0;
+  leftPressed=false; rightPressed=false; lastDir=+1; dash.active=false; dash.timer=0; dash.cooldownUntil=0;
+  menu.classList.remove("show"); overlayGameOver.classList.remove("show");
+  setHUDVisible(true); controls.hidden = !isTouchDevice(); layoutSquare(); startBGM();
+}
 // ====== 遊戲狀態 ======
 let state="menu", score=0, timeLeft=30, spawnTimer=0, items=[], mascot={visible:false,timer:0};
 let popups=[], difficulty="normal", gameDuration=30, prevSecond=null, timeupPlayed=false, paused=false;
@@ -341,15 +354,17 @@ const fx=document.createElement("canvas"); const fxCtx=fx.getContext("2d"); fx.w
 function addHurtFlash(ms=300,s=1){ hurtFlash=Math.min(1,s); hurtDecayMs=ms; }
 
 function startGame(){
-  setPlayingFlag(true);
-  state="playing"; score=0; timeLeft=gameDuration; items=[]; mascot.visible=false; popups=[];
+  // 3-2-1-START countdown (each 0.8s), no time drain or spawns
+  state="countdown";
+  cdState = { phase:0, last:performance.now(), seq:["3","2","1", goText()] };
+  // reset most fields now so START 之後能無縫接軌（但不啟動BGM）
+  score=0; timeLeft=gameDuration; items=[]; mascot.visible=false; popups=[];
   prevSecond=null; timeupPlayed=false; paused=false; spawnTimer=0;
   player.mode=null; player.modeTimer=0; starStreak=0; iFramesUntil=0; hurtFlash=0;
   leftPressed=false; rightPressed=false; lastDir=+1; dash.active=false; dash.timer=0; dash.cooldownUntil=0;
   menu.classList.remove("show"); overlayGameOver.classList.remove("show");
-  setHUDVisible(true); controls.hidden = !isTouchDevice(); layoutSquare(); startBGM();
+  setHUDVisible(true); controls.hidden = !isTouchDevice(); layoutSquare();
 }
-
 function goToMenu(){
   setPlayingFlag(false);
   state="menu"; items=[]; popups=[]; mascot.visible=false;
@@ -491,6 +506,32 @@ function render(ts){
     fxCtx.fillRect(0,0,fx.width,fx.height);
     ctx.drawImage(fx, Math.round(player.x), Math.round(player.y));
   }
+  // === 開局倒數疊層 ===
+  if(state==="countdown" && cdState){
+    const now = performance.now();
+    const dur = 800; // ms per phase
+    const text = cdState.seq[cdState.phase];
+    const t = Math.min(1,(now - cdState.last)/dur);
+    const alpha = t<0.2 ? t/0.2 : (t>0.8 ? (1-(t-0.8)/0.2) : 1);
+    ctx.save();
+    // 半透明黑色覆蓋
+    ctx.globalAlpha = 0.55;
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0,0,800,800);
+    // 文字：大而清楚
+    ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
+    ctx.fillStyle="#fff"; ctx.textAlign="center"; ctx.textBaseline="middle";
+    const size = (text && text.length>2)? 140 : 220;
+    ctx.font = "900 "+size+"px Arial";
+    ctx.strokeStyle="rgba(0,0,0,0.6)"; ctx.lineWidth=8; ctx.strokeText(text,400,400);
+    ctx.fillText(text,400,400);
+    ctx.restore();
+    if(now - cdState.last >= dur){
+      cdState.phase++; cdState.last = now;
+      if(cdState.phase >= cdState.seq.length){ cdState=null; beginPlayActual(); }
+    }
+  }
+
 }
 
 // ====== 菜單控制 ======
