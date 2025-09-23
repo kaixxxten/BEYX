@@ -254,3 +254,16 @@ button.secondary{background:#fff;color:#111}
   border-radius: 10px;
 }
 
+
+/* === v19.8.6g Mobile lag + accidental mute fix === */
+* { -webkit-tap-highlight-color: transparent; }
+body, #wrap, #canvasBox, canvas { touch-action: none; }
+button, .stat, .mute { -webkit-user-select: none; user-select: none; }
+button:focus, .mute:focus, .stat:focus { outline: none; }
+
+/* 遊戲中禁用右上音量的點擊（避免誤觸），回到選單再恢復 */
+body.playing #btnMute { pointer-events: none; opacity: 0.85; }
+
+/* 讓底部控制鍵更抗誤觸 */
+#controls button { touch-action: none; }
+

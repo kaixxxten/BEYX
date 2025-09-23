@@ -20,6 +20,7 @@ setupCanvasDPR();
 function isTouchDevice(){
   return window.matchMedia && window.matchMedia("(hover: none) and (pointer: coarse)").matches;
 }
+const IS_TOUCH = isTouchDevice();
 function layoutSquare(){
   const isTouch = isTouchDevice();
   const hudH = topHUD.hidden ? 0 : topHUD.getBoundingClientRect().height;
@@ -299,6 +300,7 @@ document.addEventListener("visibilitychange", ()=>{
 
 // ====== HUD ======
 function setHUDVisible(v){ topHUD.hidden=!v; layoutSquare(); }
+function setPlayingFlag(on){ document.body.classList.toggle('playing', !!on); }
 function updateComboHUD(){ topComboEl.textContent = `${i18n[lang].comboHUD}${starStreak}`; }
 
 // ====== 預載 & 綁定 ======
@@ -326,6 +328,7 @@ const fx=document.createElement("canvas"); const fxCtx=fx.getContext("2d"); fx.w
 function addHurtFlash(ms=300,s=1){ hurtFlash=Math.min(1,s); hurtDecayMs=ms; }
 
 function startGame(){
+  setPlayingFlag(true);
   state="playing"; score=0; timeLeft=gameDuration; items=[]; mascot.visible=false; popups=[];
   prevSecond=null; timeupPlayed=false; paused=false; spawnTimer=0;
   player.mode=null; player.modeTimer=0; starStreak=0; iFramesUntil=0; hurtFlash=0;
@@ -335,6 +338,7 @@ function startGame(){
 }
 
 function goToMenu(){
+  setPlayingFlag(false);
   state="menu"; items=[]; popups=[]; mascot.visible=false;
   stopBGM(); setHUDVisible(false); controls.hidden = true; layoutSquare();
   menu.classList.add("show"); overlayGameOver.classList.remove("show");
@@ -428,7 +432,7 @@ function render(ts){
   for(const it of items){
     const img=getItemImage(it.type);
     if(img?.naturalWidth>0){
-      if(it.type==="star" && !reduceMotion){
+      if(it.type==="star" && !reduceMotion && !IS_TOUCH){
         ctx.save();
         const glow=6+3*Math.sin(ts*0.02+it.x*0.05);
         const a=0.88+0.12*Math.sin(ts*0.03+it.y*0.03);
@@ -454,7 +458,8 @@ function render(ts){
       ctx.restore(); p.ttl-=16.6; p.alpha-=0.02; if(p.ttl<=0||p.alpha<=0) popups.splice(i,1);
     }else{
       ctx.save(); ctx.globalAlpha=p.alpha; ctx.fillStyle=p.color||"#28a745"; ctx.font=`bold ${p.size||26}px Arial`; ctx.textAlign="center";
-      ctx.lineWidth=3; ctx.strokeStyle="rgba(0,0,0,0.35)"; ctx.strokeText(p.text,p.x,p.y); ctx.fillText(p.text,p.x,p.y); ctx.restore();
+      if(!IS_TOUCH){ ctx.lineWidth=3; ctx.strokeStyle="rgba(0,0,0,0.35)"; ctx.strokeText(p.text,p.x,p.y); }
+      ctx.fillText(p.text,p.x,p.y); ctx.restore();
       p.y-=0.5; p.alpha-=0.015; if(p.alpha<=0) popups.splice(i,1);
     }
   }
