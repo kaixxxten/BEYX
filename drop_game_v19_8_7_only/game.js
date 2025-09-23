@@ -65,10 +65,10 @@ const i18n = {
           "操作艾克斯和巨龍移動吃東西",
           "PC：鍵盤 ← → / A D 移動；按下 Shift 觸發「極限衝刺!!」",
           "手機：點住下方 ◀ ▶ 移動；按「DASH」鍵依當前方向觸發",
-          "30 或 60 秒內盡量吃高分：star +1、dog +50、sushi +200、bird +500",
-          "rest -50、ban -200；吃到 dog 會讓右上角 MILLION 現身",
-          "星星連擊：避開 rest/ban；每 5 顆 +500 並 +15 秒（可連續）"
-        ],
+          "30 或 60 秒內盡量吃高分：白星 +1、三頭犬 +50、壽司 +200、阿鳥 +500",
+          "休息 -50、禁賽 -200；吃到 三頭犬 會讓右上角 狗哥 現身",
+          "星星連擊：避開 休息/禁賽；每 5 顆 +500（可連續）／簡單不加秒、普通 +3s、困難 +8s"
+          ],
         over:"時間到！", restartSame:"再玩一次（同難度）", backToMenu:"回到標題",
         score:"分數", time:"時間", best:"最佳", comboHUD:"⭐ ", dash:"極限衝刺!!" },
   ja: { title:"キャッチして食べるゲーム", start:"ゲーム開始", loading:"読み込み中…", how:"遊び方", close:"閉じる",
@@ -77,12 +77,12 @@ const i18n = {
         howTitle:"遊び方",
         howItems:[
           "エクスとドラゴンを操作して落ちてくるものを食べよう",
-          "PC：← → / A D で移動；Shift で「エクストリームダッシュ」",
-          "スマホ：◀ ▶ で移動；「DASH」で現在方向にダッシュ",
-          "30秒または60秒で高得点：スター +1、犬 +50、寿司 +200、バード +500",
-          "休憩 -50、出場禁止 -200；犬を食べると右上にMILLIONが登場",
-          "スター連続：rest/banを避け、5個ごとに +500 と +15秒（連続）"
-        ],
+          "PC：← → / A D で移動、Shift で「エクストリームダッシュ!!」",
+          "スマホ：下の ◀ ▶ を押し続けて移動、「DASH」で現在の向きに発動",
+          "30 または 60 秒で高得点を狙おう：白い星 +1、ケルベロス +50、寿司 +200、バード +500",
+          "休憩 -50、出場禁止 -200；ケルベロスを食べると右上にミリオンさんが登場",
+          "スターコンボ：休憩／出場禁止に当たらないように。5個ごとに +500（連続可）。タイムボーナス：イージー加算なし／ノーマル +3秒／ハード +8秒。"
+          ],
         over:"時間切れ！", restartSame:"もう一度（同じ難易度）", backToMenu:"タイトルへ",
         score:"スコア", time:"時間", best:"ベスト", comboHUD:"⭐ ", dash:"エクストリームダッシュ" },
   en: { title:"Catch & Chow", start:"Start Game", loading:"Loading…", how:"How to Play", close:"Close",
@@ -90,13 +90,13 @@ const i18n = {
         timeLabel:"Time:", t30:"30s", t60:"60s", lang:"Language:",
         howTitle:"How to Play",
         howItems:[
-          "Control X and the Dragon to move and eat falling items.",
-          "PC: ← → / A D to move; press Shift to trigger \"Xtreme Dash!!\"",
-          "Mobile: Hold ◀ ▶ to move; press the DASH button to dash",
-          "Go for a high score in 30 or 60 seconds: star +1, dog +50, sushi +200, bird +500",
-          "rest −50, ban −200; eating a dog makes MILLION appear top‑right",
-          "Star combo: avoid rest/ban; every 5 stars +500 & +15s (chainable)"
-        ],
+          "Move Ex and the dragon to eat falling items.",
+          "PC: Arrow Left/Right or A/D to move; press Shift to trigger “Xtreme Dash!!”.",
+          "Mobile: Hold ◀ ▶ to move; tap “DASH” to dash in the current direction.",
+          "Within 30 or 60 seconds, aim for a high score: white star +1, Cerberus +50, sushi +200, bird +500.",
+          "Rest −50, Ban −200; eating a Cerberus makes MILLION appear at the top‑right.",
+          "Star combo: avoid Rest/Ban; every 5 stars gives +500 (chainable). Time bonus: Easy none, Normal +3s, Hard +8s."
+          ],
         over:"Time Up!", restartSame:"Play Again (Same)", backToMenu:"Back to Title",
         score:"Score", time:"Time", best:"Best", comboHUD:"⭐ ", dash:"Xtreme Dash!!" }
 };
